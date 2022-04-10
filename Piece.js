@@ -5,5 +5,7 @@ class Piece {
         this.player = player
     }
 
-    canMoveTo(x, y);
+    canMoveTo(x, y){
+
+    };
 }
