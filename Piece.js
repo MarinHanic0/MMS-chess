@@ -4,8 +4,4 @@ class Piece {
         this.y = y
         this.player = player
     }
-
-    canMoveTo(x, y){
-
-    };
 }

@@ -18,17 +18,4 @@ class King extends Piece {
     show(x,y){
         image(this.img,x,y, 100, 100)
     }
-
-    // setAttackingSquares(){
-    //    return [
-    //        (this.x, this.y - 1),
-    //        (this.x, this.y + 1),
-    //        (this.x + 1, this.y),
-    //        (this.x - 1, this.y),
-    //        (this.x - 1, this.y - 1),
-    //        (this.x + 1, this.y - 1),
-    //        (this.x - 1, this.y + 1),
-    //        (this.x + 1, this.y + 1)
-    //     ]
-    // }
 }
