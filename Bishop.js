@@ -15,8 +15,4 @@ class Bishop extends Piece {
             return true
         return false
     }
-
-    show(x,y){
-        image(this.img,x,y, 100, 100)
-    }
 }

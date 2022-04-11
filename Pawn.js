@@ -13,10 +13,6 @@ class Pawn extends Piece {
         return false
     }
 
-    show(x,y){
-        image(this.img,x,y, 100, 100)
-    }
-
     canMoveTo(x, y){
         if (this.x === x && this.y === y) 
             return false
