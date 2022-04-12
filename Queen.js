@@ -3,8 +3,8 @@ class Queen extends Piece {
         super(x,y,player)
         this.x = x
         this.y = y
-        if(player == 1) this.img = loadImage('resources/QueenWhite.png')
-            else this.img = loadImage('resources/QueenBlack.png')
+        if(player === 0) this.img = loadImage('resources/QueenWhite.png')
+        else if (player === 1) this.img = loadImage('resources/QueenBlack.png')
         }
 
     canMoveTo(x, y){

@@ -3,8 +3,8 @@ class Bishop extends Piece {
         super(x,y,player)
         this.x = x
         this.y = y
-        if(player == 1) this.img = loadImage('resources/BishopWhite.png')
-            else this.img = loadImage('resources/BishopBlack.png')
+        if(player === 0) this.img = loadImage('resources/BishopWhite.png')
+        else if (player === 1) this.img = loadImage('resources/BishopBlack.png')
         }
 
     canMoveTo(x, y){

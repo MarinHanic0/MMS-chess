@@ -3,15 +3,9 @@ class Pawn extends Piece {
         super(x,y,player)
         this.x = x
         this.y = y
-        if(player == 1) this.img = loadImage('resources/PawnWhite.png')
-            else this.img = loadImage('resources/PawnBlack.png')
+        if(player === 0) this.img = loadImage('resources/PawnWhite.png')
+        else if (player === 1) this.img = loadImage('resources/PawnBlack.png')
         }
-
-    canMoveTo(x, y){
-        if (this.x === x && this.y === y) 
-            return false
-        return false
-    }
 
     canMoveTo(x, y){
         if (this.x === x && this.y === y) 

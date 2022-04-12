@@ -3,8 +3,8 @@ class Knight extends Piece {
         super(x,y,player)
         this.x = x
         this.y = y
-        if(player == 1) this.img = loadImage('resources/KnightWhite.png')
-            else this.img = loadImage('resources/KnightBlack.png')
+        if(player === 0) this.img = loadImage('resources/KnightWhite.png')
+            else if (player === 1) this.img = loadImage('resources/KnightBlack.png')
         }
 
     canMoveTo(x, y){

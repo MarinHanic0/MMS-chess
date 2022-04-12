@@ -2,7 +2,9 @@ class Piece {
     static squareSize
     static topOffset
     static leftOffset
-    image
+    imageWidth = 100
+    imageHeight = 100
+    img
     
     constructor (x, y, player){
         this.x = x
@@ -13,6 +15,10 @@ class Piece {
     }
 
     show() {
-        image(this.img, this.imageX, this.imageY, 100, 100)
+        image(this.img, this.imageX, this.imageY, this.imageWidth, this.imageHeight)
+    }
+
+    moveImage(x, y) {
+        image(this.img, x - this.imageWidth / 2, y - this.imageHeight / 2, this.imageWidth, this.imageHeight)
     }
 }
