@@ -22,8 +22,30 @@ class Pawn extends Piece {
         }
     }
 
-
     getAttackingSquares() {
+        let attackingSquares = []
+        if (this.player === 0) {
+            let x1 = this.x + 1
+            let x2 = this.x - 1
+            let yy = this.y + 1
 
+            if (yy < 8) {
+                if (x1 < 8) attackingSquares.push(x1 + ' ' + yy)
+                if (x2 > 0) attackingSquares.push(x2 + ' ' + yy)
+            }
+        }
+
+        else if (this.player === 1) {
+            let x1 = this.x + 1
+            let x2 = this.x - 1
+            let yy = this.y - 1
+
+            if (yy > 0) {
+                if (x1 < 8) attackingSquares.push(x1 + ' ' + yy)
+                if (x2 > 0) attackingSquares.push(x2 + ' ' + yy)
+            }
+        }
+
+        return attackingSquares
     }
 }

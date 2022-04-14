@@ -10,12 +10,50 @@ class Bishop extends Piece {
     canMoveTo(x, y){
         if (!this.isPlayableSquare(x, y)) 
             return false
-        if (this.y - y === this.x - x || y - this.y === x - this.x ||
-            y - this.y === this.x - x || y - this.y === this.x - x)
+        let square = x + ' ' + y 
+        if (square in this.getAttackingSquares())
             return true
     }
 
     getAttackingSquares() {
+        let attackingSquares = []
 
+        for (let i = 1; i < 8; i++) {
+            let xx = this.x + i
+            let yy = this.y + i
+            let sq = xx + ' ' + yy
+
+            if (xx > 7 || yy > 7 || !this.board.isEmptySquare(sq)) break
+            attackingSquares.push(sq)
+        }
+        
+        for (let i = 1; i < 8; i++) {
+            let xx = this.x - i
+            let yy = this.y - i
+            let sq = xx + ' ' + yy
+
+            if (xx < 0 || yy < 0 || !this.board.isEmptySquare(sq)) break
+            attackingSquares.push(sq)
+        }
+
+        for (let i = 1; i < 8; i++) {
+            let xx = this.x + i
+            let yy = this.y - i
+            let sq = xx + ' ' + yy
+
+            if (xx > 7 || yy < 0 || !this.board.isEmptySquare(sq)) break
+            attackingSquares.push(sq)
+        }
+
+        for (let i = 1; i < 8; i++) {
+            let xx = this.x - i
+            let yy = this.y + i
+            let sq = xx + ' ' + yy
+
+            if (xx < 0 || yy > 7 || !this.board.isEmptySquare(sq)) break
+            attackingSquares.push(sq)
+        }
+
+        return attackingSquares
     }
 }

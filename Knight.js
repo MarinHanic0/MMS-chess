@@ -4,7 +4,7 @@ class Knight extends Piece {
         this.x = x
         this.y = y
         if(player === 0) this.img = loadImage('resources/KnightWhite.png')
-            else if (player === 1) this.img = loadImage('resources/KnightBlack.png')
+        else if (player === 1) this.img = loadImage('resources/KnightBlack.png')
         }
 
     canMoveTo(x, y){

@@ -7,12 +7,11 @@ class Queen extends Piece {
         else if (player === 1) this.img = loadImage('resources/QueenBlack.png')
         }
 
-    canMoveTo(x, y){
+    canMoveTo(x, y) {
         if (!this.isPlayableSquare(x, y)) 
             return false
-        if (this.x === x || this.y === y || 
-            this.y - y === this.x - x || y - this.y === x - this.x ||
-            y - this.y === this.x - x || y - this.y === this.x - x)
+        let square = x + ' ' + y 
+        if (square in this.getAttackingSquares())
             return true
     }
 
