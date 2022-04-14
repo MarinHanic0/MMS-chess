@@ -1,7 +1,7 @@
 class Rook extends Piece {
 
-    constructor (x, y, player) {
-        super(x, y, player)
+    constructor (x, y, player, board) {
+        super(x, y, player, board)
         this.x = x
         this.y = y
         if(player === 0) this.img = loadImage('resources/RookWhite.png')
@@ -9,10 +9,14 @@ class Rook extends Piece {
     }
 
     canMoveTo(x, y) {
-        if (this.x === x && this.y === y)
+        if (!this.isPlayableSquare(x, y)) 
             return false
         if (this.x === x || this.y === y) 
             return true
-        return false
+    }
+
+
+    getAttackingSquares() {
+
     }
 }

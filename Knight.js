@@ -1,6 +1,6 @@
 class Knight extends Piece {
-    constructor (x, y, player){
-        super(x,y,player)
+    constructor (x, y, player, board){
+        super(x, y, player, board)
         this.x = x
         this.y = y
         if(player === 0) this.img = loadImage('resources/KnightWhite.png')
@@ -8,7 +8,7 @@ class Knight extends Piece {
         }
 
     canMoveTo(x, y){
-        if (this.x === x && this.y === y) 
+        if (!this.isPlayableSquare(x, y)) 
             return false
         if (this.x + 1 === x && this.y + 2 == y ||
             this.x - 1 === x && this.y + 2 == y ||
@@ -19,6 +19,18 @@ class Knight extends Piece {
             this.x + 2 === x && this.y - 1 == y ||
             this.x - 2 === x && this.y - 1 == y)
             return true
-        return false
+    }
+
+    getAttackingSquares() {
+        let attackingSquares = []
+        attackingSquares.push((this.x + 1) + ' ' + (this.y + 2))
+        attackingSquares.push((this.x + 1) + ' ' + (this.y - 2))
+        attackingSquares.push((this.x - 1) + ' ' + (this.y + 2))
+        attackingSquares.push((this.x - 1) + ' ' + (this.y - 2))
+        attackingSquares.push((this.x + 2) + ' ' + (this.y + 1))
+        attackingSquares.push((this.x + 2) + ' ' + (this.y - 1))
+        attackingSquares.push((this.x - 2) + ' ' + (this.y - 1))
+        attackingSquares.push((this.x - 2) + ' ' + (this.y + 1))
+        this.attackingSquares = attackingSquares
     }
 }

@@ -5,7 +5,8 @@ let totalBoardSizeX = leftOffset + 8 * squareSize
 let totalBoardSizeY = topOffset + 8 * squareSize 
 let mouseDown = 1
 let board
-let startSquare
+let startSquare, endSquare
+let movingPiece
 
 Piece.topOffset = topOffset
 Piece.leftOffset = leftOffset
@@ -25,14 +26,29 @@ function draw() {
 		if (mouseDown === 1) startSquare = mousePressed()
 		mouseDown = 0
 
-		// console.log(startSquare)
-		if (startSquare) {
-			board.moveImage(startSquare, mouseX, mouseY)
-		}
+		if (!startSquare) return
+		movingPiece = board.getMovingPiece(startSquare)
+
+		if (!movingPiece) return
+		movingPiece.showImage = false
+		movingPiece.moveImage(mouseX, mouseY)
+		
 	}
 
 	if (mouseDown === 0 && !mouseIsPressed) {
-		// console.log(mouseReleased())
+		endSquare = mouseReleased()
+		mouseDown = 1
+		if (!endSquare || !movingPiece) return
+
+		movingPiece.showImage = true
+		let [x, y] = endSquare.split(' ')
+		x = int(x)
+		y = int(y)
+		if(movingPiece.canMoveTo(x, y, board)) {
+			movingPiece.setSquare(x, y)
+			movingPiece = undefined
+			board.changeTurn()
+		}
 	}
 
 }
@@ -43,7 +59,7 @@ function mousePressed() {
 			mouseY > topOffset && mouseY < totalBoardSizeY) {
 				const x = Math.floor((mouseX - leftOffset) / squareSize)
 				const y = Math.floor((mouseY - topOffset) / squareSize)
-				return x + ', ' + y
+				return x + ' ' + y
 		}
 	}
 }
@@ -54,8 +70,7 @@ function mouseReleased() {
 			mouseY > topOffset && mouseY < totalBoardSizeY) {
 				const x = Math.floor((mouseX - leftOffset) / squareSize)
 				const y = Math.floor((mouseY - topOffset) / squareSize)
-				mouseDown = 1
-				return x + ', ' + y
+				return x + ' ' + y
 		}
 	}
 }
