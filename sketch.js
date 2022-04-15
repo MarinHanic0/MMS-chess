@@ -28,11 +28,9 @@ function draw() {
 
 		if (!startSquare) return
 		movingPiece = board.getMovingPiece(startSquare)
-
-		if (!movingPiece) return
-		movingPiece.showImage = false
-		movingPiece.moveImage(mouseX, mouseY)
 		
+		if (!movingPiece) return
+		board.showMovingPiece(movingPiece, mouseX, mouseY)		
 	}
 
 	if (mouseDown === 0 && !mouseIsPressed) {
@@ -40,15 +38,8 @@ function draw() {
 		mouseDown = 1
 		if (!endSquare || !movingPiece) return
 
-		movingPiece.showImage = true
-		let [x, y] = endSquare.split(' ')
-		x = int(x)
-		y = int(y)
-		if(movingPiece.canMoveTo(x, y, board)) {
-			movingPiece.setSquare(x, y)
-			movingPiece = undefined
-			board.changeTurn()
-		}
+		board.makeMove(movingPiece, endSquare)
+		movingPiece = undefined
 	}
 
 }

@@ -7,23 +7,27 @@ class Pawn extends Piece {
         else if (player === 1) this.img = loadImage('resources/PawnBlack.png')
     }
 
-    canMoveTo(x, y){
+    canMoveTo(x, y, square){
         if (!this.isPlayableSquare(x, y)) 
             return false
+        if (this.checkCaptureMove(square)) return true
         if (this.player === 0) {
-            if (this.x === x &&
-                (this.y === 1 && y == 3 || this.y + 1 === y))
-                return true
+            if (this.x === x && (this.y === 1 && y == 3 || this.y + 1 === y)
+                ) {
+                    return true
+                }
         }
         if (this.player === 1) {
             if (this.x === x &&
-                (this.y === 6 && y == 4 || this.y - 1 === y))
-                return true
+                (this.y === 6 && y == 4 || this.y - 1 === y)) {
+                    return true
+                }
         }
     }
 
     getAttackingSquares() {
         let attackingSquares = []
+        
         if (this.player === 0) {
             let x1 = this.x + 1
             let x2 = this.x - 1
@@ -47,5 +51,14 @@ class Pawn extends Piece {
         }
 
         return attackingSquares
+    }
+
+    checkCaptureMove(square) {
+        let attackingSquares = this.getAttackingSquares()
+
+        if (!attackingSquares.includes(square)) return false
+        let opponentPieces = this.board.getOpponentPieces(this.player)
+        if (!(square in opponentPieces)) return false
+        return true
     }
 }

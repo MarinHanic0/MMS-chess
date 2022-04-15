@@ -7,12 +7,12 @@ class Bishop extends Piece {
         else if (player === 1) this.img = loadImage('resources/BishopBlack.png')
         }
 
-    canMoveTo(x, y){
+    canMoveTo(x, y, square) {
         if (!this.isPlayableSquare(x, y)) 
             return false
-        let square = x + ' ' + y 
-        if (square in this.getAttackingSquares())
+        if (this.getAttackingSquares().includes(square)) {
             return true
+        }
     }
 
     getAttackingSquares() {
@@ -23,7 +23,10 @@ class Bishop extends Piece {
             let yy = this.y + i
             let sq = xx + ' ' + yy
 
-            if (xx > 7 || yy > 7 || !this.board.isEmptySquare(sq)) break
+            if (xx > 7 || yy > 7 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
         
@@ -32,7 +35,10 @@ class Bishop extends Piece {
             let yy = this.y - i
             let sq = xx + ' ' + yy
 
-            if (xx < 0 || yy < 0 || !this.board.isEmptySquare(sq)) break
+            if (xx < 0 || yy < 0 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
 
@@ -41,7 +47,10 @@ class Bishop extends Piece {
             let yy = this.y - i
             let sq = xx + ' ' + yy
 
-            if (xx > 7 || yy < 0 || !this.board.isEmptySquare(sq)) break
+            if (xx > 7 || yy < 0 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
 
@@ -50,7 +59,10 @@ class Bishop extends Piece {
             let yy = this.y + i
             let sq = xx + ' ' + yy
 
-            if (xx < 0 || yy > 7 || !this.board.isEmptySquare(sq)) break
+            if (xx < 0 || yy > 7 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
 

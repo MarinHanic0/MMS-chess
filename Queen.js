@@ -1,5 +1,5 @@
 class Queen extends Piece {
-    constructor (x, y, player, board){
+    constructor (x, y, player, board) {
         super(x, y, player, board)
         this.x = x
         this.y = y
@@ -7,12 +7,12 @@ class Queen extends Piece {
         else if (player === 1) this.img = loadImage('resources/QueenBlack.png')
         }
 
-    canMoveTo(x, y) {
+    canMoveTo(x, y, square) {
         if (!this.isPlayableSquare(x, y)) 
             return false
-        let square = x + ' ' + y 
-        if (square in this.getAttackingSquares())
+        if (this.getAttackingSquares().includes(square)) {
             return true
+        }
     }
 
     getAttackingSquares() {
@@ -22,7 +22,10 @@ class Queen extends Piece {
             let xx = this.x + i
             let sq = xx + ' ' + this.y
 
-            if (xx > 7 || !this.board.isEmptySquare(sq)) break
+            if (xx > 7 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
         
@@ -30,7 +33,10 @@ class Queen extends Piece {
             let xx = this.x - i
             let sq = xx + ' ' + this.y
 
-            if (xx < 0 || !this.board.isEmptySquare(sq)) break
+            if (xx < 0 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
 
@@ -38,7 +44,10 @@ class Queen extends Piece {
             let yy = this.y + i
             let sq = this.x + ' ' + yy
 
-            if (yy > 7 || !this.board.isEmptySquare(sq)) break
+            if (yy > 7 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
 
@@ -46,7 +55,10 @@ class Queen extends Piece {
             let yy = this.y - i
             let sq = this.x + ' ' + yy
 
-            if (yy < 0 || !this.board.isEmptySquare(sq)) break
+            if (yy < 0 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
 
@@ -55,7 +67,10 @@ class Queen extends Piece {
             let yy = this.y + i
             let sq = xx + ' ' + yy
 
-            if (xx > 7 || yy > 7 || !this.board.isEmptySquare(sq)) break
+            if (xx > 7 || yy > 7 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
         
@@ -64,7 +79,10 @@ class Queen extends Piece {
             let yy = this.y - i
             let sq = xx + ' ' + yy
 
-            if (xx < 0 || yy < 0 || !this.board.isEmptySquare(sq)) break
+            if (xx < 0 || yy < 0 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
 
@@ -73,7 +91,10 @@ class Queen extends Piece {
             let yy = this.y - i
             let sq = xx + ' ' + yy
 
-            if (xx > 7 || yy < 0 || !this.board.isEmptySquare(sq)) break
+            if (xx > 7 || yy < 0 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
 
@@ -82,7 +103,10 @@ class Queen extends Piece {
             let yy = this.y + i
             let sq = xx + ' ' + yy
 
-            if (xx < 0 || yy > 7 || !this.board.isEmptySquare(sq)) break
+            if (xx < 0 || yy > 7 || !this.board.isEmptySquare(sq)) {
+                if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
+                break
+            }
             attackingSquares.push(sq)
         }
         

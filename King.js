@@ -9,10 +9,12 @@ class King extends Piece {
             this.img = loadImage('resources/KingBlack.png')
     }
 
-    canMoveTo(x, y) {
+    canMoveTo(x, y, square) {
         if(!this.isPlayableSquare(x, y)) return false
-        if (this.x + 1 === x || this.x - 1 === x || this.y + 1 === y || this.y - 1 === y)
+        if (this.x + 1 === x || this.x - 1 === x || this.y + 1 === y || this.y - 1 === y) {
+            this.checkCapture(square)
             return true
+        }
     }
 
     getAttackingSquares() {

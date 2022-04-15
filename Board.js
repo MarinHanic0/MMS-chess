@@ -12,19 +12,23 @@ class Board {
     constructor() {
         this.wPieces = this.startPieces(0)
         this.bPieces = this.startPieces(1)
-        this.wAttackingSquares = this.attackingSquares(0)
-        this.bAttackingSquares = this.attackingSquares(1)
+        this.wAttackingSquares = this.getAttackingSquares(0)
+        this.bAttackingSquares = this.getAttackingSquares(1)
         this.turn = 0
     }
 
     getMovingPiece(square) {
-        // console.log(this.turn)
         if (this.turn === 0) {
             return this.wPieces[square]
         }
         else if (this.turn === 1) {
             return this.bPieces[square]
         }
+    }
+
+    showMovingPiece(movingPiece, mouseX, mouseY) {
+		movingPiece.showImage = false
+		movingPiece.moveImage(mouseX, mouseY)
     }
 
     changeTurn() {
@@ -52,14 +56,13 @@ class Board {
         return pieces
     }
 
-    attackingSquares(player)
+    getAttackingSquares(player)
     {
         let pieces = player === 0 ? this.wPieces : this.bPieces
         let squares = new Set()
         
         for (const [square, piece] of Object.entries(pieces)) {
             squares.add(square)
-            // console.log(piece)
             squares.add(piece.getAttackingSquares())
         }
 
@@ -68,6 +71,11 @@ class Board {
 
     isEmptySquare(square) {
         return !(square in this.wPieces) && !(square in this.bPieces)
+    }
+
+    isAttackableSquare(square, player) {
+        if (player === 0) return !(square in this.wPieces)
+        if (player === 1) return !(square in this.bPieces)
     }
 
     isPlayableSquare(square, player) {
@@ -80,6 +88,34 @@ class Board {
         else if (player === 1) {
             return !(square in this.bPieces) // || !(this.wPieces[square] instanceof King)
         }
+    }
+
+    makeMove(movingPiece, square) {
+        movingPiece.showImage = true
+		let oldSquare = movingPiece.x + ' ' + movingPiece.y
+        let [x, y] = square.split(' ')
+		x = int(x)
+		y = int(y)
+
+		if(movingPiece.canMoveTo(x, y, square)) { 
+			let pieces = this.getActivePieces()
+            delete pieces[oldSquare]
+            this.wAttackingSquares = this.getAttackingSquares(0)
+            this.bAttackingSquares = this.getAttackingSquares(1)
+			movingPiece.setSquare(x, y, square)
+			this.changeTurn()
+		}
+    }
+    
+
+    getActivePieces() {
+        if (this.turn === 0) return this.wPieces
+        else if (this.turn === 1) return this.bPieces
+    }
+
+    getOpponentPieces(player) {
+        if (player === 0) return this.bPieces
+        else if (player === 1) return this.wPieces
     }
 
     show() {

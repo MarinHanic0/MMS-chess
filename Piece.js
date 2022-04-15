@@ -17,21 +17,22 @@ class Piece {
         this.inPlay = true
     }
 
-    setSquare(x, y) {
-        let oldX = this.x
-        let oldY = this.y
+    setSquare(x, y, oldSq) {
         this.x = x
         this.y = y
         this.imageX = leftOffset + x * squareSize
         this.imageY = topOffset + y * squareSize
+        let sq = x + ' ' + y
+
         if (this.player === 0) {
-            delete this.board.wPieces[oldX + ' ' + oldY]
-            this.board.wPieces[x + ' ' + y] = this
+            delete this.board.wPieces[oldSq]
+            this.board.wPieces[sq] = this
         }
         else if (this.player === 1) {
-            delete this.board.bPieces[oldX + ' ' + oldY]
-            this.board.bPieces[x + ' ' + y] = this
+            delete this.board.bPieces[oldSq]
+            this.board.bPieces[sq] = this
         }
+        this.checkCapture(oldSq)
     }
 
     show() {
@@ -46,5 +47,16 @@ class Piece {
         if (this.x === x && this.y === y || !this.board.isPlayableSquare(x + ' ' + y, this.player))
             return false
         return true
+    }
+
+    checkCapture() {
+        let pieces
+        let sq = this.x + ' ' + this.y
+        if (this.board.turn === 0) pieces = this.board.bPieces
+        else if (this.board.turn === 1) pieces = this.board.wPieces
+        if (sq in pieces) {
+            pieces[sq].showImage = false
+            delete pieces[sq]
+        }
     }
 }

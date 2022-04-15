@@ -5,9 +5,9 @@ class Knight extends Piece {
         this.y = y
         if(player === 0) this.img = loadImage('resources/KnightWhite.png')
         else if (player === 1) this.img = loadImage('resources/KnightBlack.png')
-        }
+    }
 
-    canMoveTo(x, y){
+    canMoveTo(x, y, square) {
         if (!this.isPlayableSquare(x, y)) 
             return false
         if (this.x + 1 === x && this.y + 2 == y ||
