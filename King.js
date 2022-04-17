@@ -3,6 +3,7 @@ class King extends Piece {
         super(x, y, player, board)
         this.x = x
         this.y = y
+        this.inCheck = false
         if(player === 0) 
             this.img = loadImage('resources/KingWhite.png')
         else if (player === 1) 

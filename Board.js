@@ -15,6 +15,8 @@ class Board {
         this.wAttackingSquares = this.getAttackingSquares(0)
         this.bAttackingSquares = this.getAttackingSquares(1)
         this.turn = 0
+        this.wKingSquare = '0 3' 
+        this.bKingSquare = '7 3' 
     }
 
     getMovingPiece(square) {
@@ -56,6 +58,7 @@ class Board {
         return pieces
     }
 
+    // TODO: Ovo treba popraviti, tj. u pojedinim figurama treba popraviti koja polja napadaju
     getAttackingSquares(player)
     {
         let pieces = player === 0 ? this.wPieces : this.bPieces
@@ -63,7 +66,7 @@ class Board {
         
         for (const [square, piece] of Object.entries(pieces)) {
             squares.add(square)
-            squares.add(piece.getAttackingSquares())
+            piece.getAttackingSquares().forEach(squares.add, squares)
         }
 
         return squares
@@ -80,26 +83,26 @@ class Board {
 
     isPlayableSquare(square, player) {
         if (player === 0) {
-            // console.log('a')
-            // console.log(square in this.wPieces)
-            // console.log(!(square in this.wPieces))
-            return !(square in this.wPieces) // || !(this.bPieces[square] instanceof King)
+            return !(square in this.wPieces)
         }
         else if (player === 1) {
-            return !(square in this.bPieces) // || !(this.wPieces[square] instanceof King)
+            return !(square in this.bPieces)
         }
     }
 
     makeMove(movingPiece, square) {
         movingPiece.showImage = true
 		let oldSquare = movingPiece.x + ' ' + movingPiece.y
+        let activePieces = this.getActivePieces()
         let [x, y] = square.split(' ')
 		x = int(x)
 		y = int(y)
 
-		if(movingPiece.canMoveTo(x, y, square)) { 
-			let pieces = this.getActivePieces()
-            delete pieces[oldSquare]
+		if(movingPiece.canMoveTo(x, y, square) 
+            && !this.isCausingSelfCheck(oldSquare, movingPiece, activePieces)
+        ) {
+
+            delete activePieces[oldSquare]
             this.wAttackingSquares = this.getAttackingSquares(0)
             this.bAttackingSquares = this.getAttackingSquares(1)
 			movingPiece.setSquare(x, y, square)
@@ -107,6 +110,25 @@ class Board {
 		}
     }
     
+    isCausingSelfCheck(oldSquare, movingPiece, activePieces) {
+        delete activePieces[oldSquare]
+        let opponentAttackingSquares, kingSquare
+        
+        if (this.turn === 0) {
+            opponentAttackingSquares = this.getAttackingSquares(1)
+            kingSquare = this.wKingSquare
+        }
+        else if (this.turn === 1) {
+            opponentAttackingSquares = this.getAttackingSquares(0)
+            kingSquare = this.bKingSquare
+        }
+
+        activePieces[oldSquare] = movingPiece
+        if (opponentAttackingSquares.has(kingSquare)) {
+            return true
+        }
+        return false
+    }
 
     getActivePieces() {
         if (this.turn === 0) return this.wPieces

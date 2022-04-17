@@ -31,6 +31,6 @@ class Knight extends Piece {
         attackingSquares.push((this.x + 2) + ' ' + (this.y - 1))
         attackingSquares.push((this.x - 2) + ' ' + (this.y - 1))
         attackingSquares.push((this.x - 2) + ' ' + (this.y + 1))
-        this.attackingSquares = attackingSquares
+        return attackingSquares
     }
 }

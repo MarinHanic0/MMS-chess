@@ -27,10 +27,12 @@ class Piece {
         if (this.player === 0) {
             delete this.board.wPieces[oldSq]
             this.board.wPieces[sq] = this
+            if (this instanceof King) this.board.wKing = sq
         }
         else if (this.player === 1) {
             delete this.board.bPieces[oldSq]
             this.board.bPieces[sq] = this
+            if (this instanceof King) this.board.bKing = sq
         }
         this.checkCapture(oldSq)
     }
