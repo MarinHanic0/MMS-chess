@@ -16,7 +16,8 @@ class King extends Piece {
 
     canMoveTo(x, y, square) {
         if(!this.isPlayableSquare(x, y)) return false
-        if (this.x + 1 === x || this.x - 1 === x || this.y + 1 === y || this.y - 1 === y) {
+        if ((this.x === x + 1 && this.y >= y - 1 && this.y <= y + 1) || (this.x === x - 1 && this.y >= y - 1 && this.y <= y + 1) 
+            || (this.x === x && (this.y === y - 1 || this.y === y + 1)) ) {
             this.checkCapture(square)
             return true
         }
