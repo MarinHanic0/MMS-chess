@@ -4,10 +4,14 @@ class King extends Piece {
         this.x = x
         this.y = y
         this.inCheck = false
-        if(player === 0) 
+        if(player === 0) {
+            this.board.wKing = this
             this.img = loadImage('resources/KingWhite.png')
-        else if (player === 1) 
+        }
+        else if (player === 1) {
+            this.board.bKing = this
             this.img = loadImage('resources/KingBlack.png')
+        }
     }
 
     canMoveTo(x, y, square) {

@@ -15,8 +15,8 @@ class Board {
         this.wAttackingSquares = this.getAttackingSquares(0)
         this.bAttackingSquares = this.getAttackingSquares(1)
         this.turn = 0
-        this.wKingSquare = '3 0' 
-        this.bKingSquare = '3 7' 
+        this.wKing
+        this.bKing
     }
 
     getMovingPiece(square) {
@@ -91,47 +91,78 @@ class Board {
 
     makeMove(movingPiece, square) {
         movingPiece.showImage = true
-		let oldSquare = movingPiece.x + ' ' + movingPiece.y
         let activePieces = this.getActivePieces()
         let [x, y] = square.split(' ')
 		x = int(x)
 		y = int(y)
 
 		if(movingPiece.canMoveTo(x, y, square) 
-            && !this.isCausingSelfCheck(oldSquare, movingPiece, activePieces)
+            && !this.isCausingSelfCheck(movingPiece, x, y, square, activePieces)
         ) {
-
-            delete activePieces[oldSquare]
+            let activeKing = this.getActiveKing()
+            if (activeKing.inCheck) this.checkRemoveCheck()
+            delete activePieces[movingPiece.square]
             this.wAttackingSquares = this.getAttackingSquares(0)
             this.bAttackingSquares = this.getAttackingSquares(1)
 			movingPiece.setSquare(x, y, square)
 			this.changeTurn()
+            this.setCheck()
 		}
     }
+
+    // TODO: Ako je igrac u sahu, mora taj potez napraviti nesto da ne bude u sahu
+    // TODO: Malo teze, ako ne moze nista napraviti da sprijeci sah, u matu je
+    checkRemoveCheck() {
+
+    }
     
-    isCausingSelfCheck(oldSquare, movingPiece, activePieces) {
-        delete activePieces[oldSquare]
+    isCausingSelfCheck(movingPiece, x, y, square, activePieces) {
+        let oldX = movingPiece.x
+        let oldY = movingPiece.y
+        let oldSquare = movingPiece.square
         let opponentAttackingSquares, kingSquare
+
+        movingPiece.setSquare(x, y, oldSquare, false)
         
         if (this.turn === 0) {
             opponentAttackingSquares = this.getAttackingSquares(1)
-            kingSquare = this.wKingSquare
+            kingSquare = this.wKing.square
         }
         else if (this.turn === 1) {
             opponentAttackingSquares = this.getAttackingSquares(0)
-            kingSquare = this.bKingSquare
+            kingSquare = this.bKing.square
         }
 
-        activePieces[oldSquare] = movingPiece
+        movingPiece.setSquare(oldX, oldY, square, false)
         if (opponentAttackingSquares.has(kingSquare)) {
             return true
         }
         return false
     }
 
+    setCheck() {
+        let activeKing = this.getActiveKing()
+        let activeKingSquare = activeKing.square
+        let opponentAttackingSquares
+
+        if (this.turn === 0) {
+            opponentAttackingSquares = this.bAttackingSquares
+        }
+        else if (this.turn === 1) {
+            opponentAttackingSquares = this.wAttackingSquares
+        }
+
+        if (opponentAttackingSquares.has(activeKingSquare)) activeKing.inCheck = true
+    }
+
     getActivePieces() {
         if (this.turn === 0) return this.wPieces
         else if (this.turn === 1) return this.bPieces
+    }
+
+    getActiveKing() {
+        if (this.turn === 0) return this.wKing
+        else if (this.turn === 1) return this.bKing
     }
 
     getOpponentPieces(player) {

@@ -15,24 +15,27 @@ class Piece {
         this.imageY = topOffset + y * squareSize
         this.showImage = true
         this.inPlay = true
+        this.square = x + ' ' + y
     }
 
-    setSquare(x, y, oldSq) {
+    setSquare(x, y, oldSq, setImage = true) {
+        this.square = x + ' ' + y
         this.x = x
         this.y = y
-        this.imageX = leftOffset + x * squareSize
-        this.imageY = topOffset + y * squareSize
-        let sq = x + ' ' + y
-
+        if (setImage) {
+            this.imageX = leftOffset + x * squareSize
+            this.imageY = topOffset + y * squareSize
+        }
+        
         if (this.player === 0) {
             delete this.board.wPieces[oldSq]
-            this.board.wPieces[sq] = this
-            if (this instanceof King) this.board.wKing = sq
+            this.board.wPieces[this.square] = this
+            if (this instanceof King) this.board.wKing = this.square
         }
         else if (this.player === 1) {
             delete this.board.bPieces[oldSq]
-            this.board.bPieces[sq] = this
-            if (this instanceof King) this.board.bKing = sq
+            this.board.bPieces[this.square] = this
+            if (this instanceof King) this.board.bKing = this.square
         }
         this.checkCapture(oldSq)
     }
@@ -53,12 +56,11 @@ class Piece {
 
     checkCapture() {
         let pieces
-        let sq = this.x + ' ' + this.y
         if (this.board.turn === 0) pieces = this.board.bPieces
         else if (this.board.turn === 1) pieces = this.board.wPieces
-        if (sq in pieces) {
-            pieces[sq].showImage = false
-            delete pieces[sq]
+        if (this.square in pieces) {
+            pieces[this.square].showImage = false
+            delete pieces[this.square]
         }
     }
 }
