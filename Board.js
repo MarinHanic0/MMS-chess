@@ -15,8 +15,8 @@ class Board {
         this.wAttackingSquares = this.getAttackingSquares(0)
         this.bAttackingSquares = this.getAttackingSquares(1)
         this.turn = 0
-        this.wKingSquare = '0 3' 
-        this.bKingSquare = '7 3' 
+        this.wKingSquare = '3 0' 
+        this.bKingSquare = '3 7' 
     }
 
     getMovingPiece(square) {
@@ -58,7 +58,6 @@ class Board {
         return pieces
     }
 
-    // TODO: Ovo treba popraviti, tj. u pojedinim figurama treba popraviti koja polja napadaju
     getAttackingSquares(player)
     {
         let pieces = player === 0 ? this.wPieces : this.bPieces

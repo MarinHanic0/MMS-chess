@@ -24,7 +24,8 @@ class Rook extends Piece {
             let xx = this.x + i
             let sq = xx + ' ' + this.y
 
-            if (xx > 7 || !this.board.isEmptySquare(sq)) {
+            if (xx > 7) break
+            if (!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
                 break
             }
@@ -34,8 +35,9 @@ class Rook extends Piece {
         for (let i = 1; i < 8; i++) {
             let xx = this.x - i
             let sq = xx + ' ' + this.y
-
-            if (xx < 0 || !this.board.isEmptySquare(sq)) {
+            
+            if (xx < 0) break
+            if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
                 break
             }
@@ -46,7 +48,8 @@ class Rook extends Piece {
             let yy = this.y + i
             let sq = this.x + ' ' + yy
 
-            if (yy > 7 || !this.board.isEmptySquare(sq)) {
+            if (yy > 7) break
+            if (!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
                 break
             }
@@ -57,7 +60,8 @@ class Rook extends Piece {
             let yy = this.y - i
             let sq = this.x + ' ' + yy
 
-            if (yy < 0 || !this.board.isEmptySquare(sq)) {
+            if (yy < 0) break
+            if (!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
                 break
             }

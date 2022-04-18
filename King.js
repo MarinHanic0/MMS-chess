@@ -20,14 +20,14 @@ class King extends Piece {
 
     getAttackingSquares() {
         let attackingSquares = []
-        attackingSquares.push((this.x + 1) + ' ' + this.y)
-        attackingSquares.push((this.x - 1) + ' ' +  this.y)
-        attackingSquares.push(this.x + ' ' + (this.y + 1))
-        attackingSquares.push(this.x + ' ' + (this.y - 1))
-        attackingSquares.push((this.x + 1) + ' ' + (this.y + 1))
-        attackingSquares.push((this.x + 1) + ' ' + (this.y - 1))
-        attackingSquares.push((this.x - 1) + ' ' + (this.y - 1))
-        attackingSquares.push((this.x - 1) + ' ' + (this.y + 1))
+        if (this.x + 1 < 8) attackingSquares.push((this.x + 1) + ' ' + this.y)
+        if (this.x - 1 > -1) attackingSquares.push((this.x - 1) + ' ' +  this.y)
+        if (this.y + 1 < 8) attackingSquares.push(this.x + ' ' + (this.y + 1))
+        if (this.y - 1 > -1) attackingSquares.push(this.x + ' ' + (this.y - 1))
+        if (this.x + 1 < 8 && this.y + 1 < 8) attackingSquares.push((this.x + 1) + ' ' + (this.y + 1))
+        if (this.x + 1 < 8 && this.y - 1 > -1) attackingSquares.push((this.x + 1) + ' ' + (this.y - 1))
+        if (this.x - 1 > -1 && this.y - 1 > -1) attackingSquares.push((this.x - 1) + ' ' + (this.y - 1))
+        if (this.x - 1 > -1 && this.y + 1 < 8) attackingSquares.push((this.x - 1) + ' ' + (this.y + 1))
         return attackingSquares
     }
 }

@@ -22,8 +22,9 @@ class Bishop extends Piece {
             let xx = this.x + i
             let yy = this.y + i
             let sq = xx + ' ' + yy
-
-            if (xx > 7 || yy > 7 || !this.board.isEmptySquare(sq)) {
+            
+            if (xx > 7 || yy > 7) break
+            if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
                 break
             }
@@ -34,8 +35,9 @@ class Bishop extends Piece {
             let xx = this.x - i
             let yy = this.y - i
             let sq = xx + ' ' + yy
-
-            if (xx < 0 || yy < 0 || !this.board.isEmptySquare(sq)) {
+            
+            if (xx < 0 || yy < 0) break
+            if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
                 break
             }
@@ -46,8 +48,9 @@ class Bishop extends Piece {
             let xx = this.x + i
             let yy = this.y - i
             let sq = xx + ' ' + yy
-
-            if (xx > 7 || yy < 0 || !this.board.isEmptySquare(sq)) {
+            
+            if (xx > 7 || yy < 0) break
+            if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
                 break
             }
@@ -58,8 +61,9 @@ class Bishop extends Piece {
             let xx = this.x - i
             let yy = this.y + i
             let sq = xx + ' ' + yy
-
-            if (xx < 0 || yy > 7 || !this.board.isEmptySquare(sq)) {
+            
+            if (xx < 0 || yy > 7) break
+            if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
                 break
             }

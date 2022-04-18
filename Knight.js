@@ -23,14 +23,14 @@ class Knight extends Piece {
 
     getAttackingSquares() {
         let attackingSquares = []
-        attackingSquares.push((this.x + 1) + ' ' + (this.y + 2))
-        attackingSquares.push((this.x + 1) + ' ' + (this.y - 2))
-        attackingSquares.push((this.x - 1) + ' ' + (this.y + 2))
-        attackingSquares.push((this.x - 1) + ' ' + (this.y - 2))
-        attackingSquares.push((this.x + 2) + ' ' + (this.y + 1))
-        attackingSquares.push((this.x + 2) + ' ' + (this.y - 1))
-        attackingSquares.push((this.x - 2) + ' ' + (this.y - 1))
-        attackingSquares.push((this.x - 2) + ' ' + (this.y + 1))
+        if (this.x + 1 < 8 && this.y + 2 < 8) attackingSquares.push((this.x + 1) + ' ' + (this.y + 2))
+        if (this.x + 1 < 8 && this.y - 2 > -1) attackingSquares.push((this.x + 1) + ' ' + (this.y - 2))
+        if (this.x - 1 > -1 && this.y + 2 < 8) attackingSquares.push((this.x - 1) + ' ' + (this.y + 2))
+        if (this.x - 1 > -1 && this.y - 2 > -1) attackingSquares.push((this.x - 1) + ' ' + (this.y - 2))
+        if (this.x + 2 < 8 && this.y + 1 < 8) attackingSquares.push((this.x + 2) + ' ' + (this.y + 1))
+        if (this.x + 2 < 8 && this.y - 1 > -1) attackingSquares.push((this.x + 2) + ' ' + (this.y - 1))
+        if (this.x - 2 > -1 && this.y - 1 > -1) attackingSquares.push((this.x - 2) + ' ' + (this.y - 1))
+        if (this.x - 2 > -1 && this.y + 1 < 8) attackingSquares.push((this.x - 2) + ' ' + (this.y + 1))
         return attackingSquares
     }
 }

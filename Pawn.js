@@ -35,7 +35,7 @@ class Pawn extends Piece {
 
             if (yy < 8) {
                 if (x1 < 8) attackingSquares.push(x1 + ' ' + yy)
-                if (x2 > 0) attackingSquares.push(x2 + ' ' + yy)
+                if (x2 > -1) attackingSquares.push(x2 + ' ' + yy)
             }
         }
 
@@ -44,9 +44,9 @@ class Pawn extends Piece {
             let x2 = this.x - 1
             let yy = this.y - 1
 
-            if (yy > 0) {
+            if (yy > -1) {
                 if (x1 < 8) attackingSquares.push(x1 + ' ' + yy)
-                if (x2 > 0) attackingSquares.push(x2 + ' ' + yy)
+                if (x2 > -1) attackingSquares.push(x2 + ' ' + yy)
             }
         }
 
