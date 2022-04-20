@@ -15,7 +15,9 @@ class King extends Piece {
     }
 
     canMoveTo(x, y, square) {
-        if(!this.isPlayableSquare(x, y)) return false
+        let opponentAttackingSquares = this.board.getAttackingSquares((this.player + 1) % 2)
+        if(!this.isPlayableSquare(x, y)
+        || opponentAttackingSquares.has(square)) return false
         if ((this.x === x + 1 && this.y >= y - 1 && this.y <= y + 1) || (this.x === x - 1 && this.y >= y - 1 && this.y <= y + 1) 
             || (this.x === x && (this.y === y - 1 || this.y === y + 1)) ) {
             this.checkCapture(square)

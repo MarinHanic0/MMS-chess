@@ -42,7 +42,7 @@ function draw() {
 			board.makeMove(movingPiece, endSquare)
 			movingPiece = undefined
 		}
-		else {
+		else if (movingPiece){
 			movingPiece.showImage = true
 		}
 		
