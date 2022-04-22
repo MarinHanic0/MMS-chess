@@ -11,17 +11,28 @@ class Pawn extends Piece {
         if (!this.isPlayableSquare(x, y)) 
             return false
         if (this.checkCaptureMove(square)) return true
-        if (this.player === 0) {
-            if (this.x === x && (this.y === 1 && y == 3 || this.y + 1 === y)
-                ) {
-                    return true
+        if (this.board.isEmptySquare(square)) {
+            if (this.player === 0) {
+                if (this.x === x) {
+                    if (this.y + 1 === y) {
+                        return true
+                    }
+                    if (this.y === 1 && y === 3 && this.board.isEmptySquare(x + ' 2')) {
+                        return true
+                    }
                 }
-        }
-        if (this.player === 1) {
-            if (this.x === x &&
-                (this.y === 6 && y == 4 || this.y - 1 === y)) {
-                    return true
+            }
+            if (this.player === 1) {
+                if (this.x === x) {
+                    if (this.y - 1 === y) {
+                        return true
+                    }
+                    if (this.y === 6 && y === 4 && this.board.isEmptySquare(x + ' 5')) {
+                        return true
+                    }
                 }
+
+            }
         }
     }
 
