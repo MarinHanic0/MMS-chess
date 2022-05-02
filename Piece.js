@@ -16,28 +16,42 @@ class Piece {
         this.showImage = true
         this.inPlay = true
         this.square = x + ' ' + y
+        this.hasMoved = false
     }
 
-    setSquare(x, y, oldSq, setImage = true) {
-        this.square = x + ' ' + y
+    setSquare(x, y, newSquare, setImage = true) {
+        let oldX = this.x
+        let oldY = this.y
         this.x = x
         this.y = y
+
         if (setImage) {
+            if (this instanceof King && !this.hasMoved) {
+                if (this.square === this.kSideCastleSquare && !this.kSideRook.hasMoved) {
+                    this.kSideRook.setSquare(2, y, 2 + ' ' + y)
+                }
+                else if (this.square === this.qSideCastleSquare && !this.qSideRook.hasMoved) {
+                    this.qSideRook.setSquare(4, y, 4 + ' ' + y)
+                }
+            }
             this.imageX = leftOffset + x * squareSize
             this.imageY = topOffset + y * squareSize
+            this.hasMoved = true
         }
         
         if (this.player === 0) {
-            delete this.board.wPieces[oldSq]
-            this.board.wPieces[this.square] = this
+            delete this.board.wPieces[this.square]
+            this.board.wPieces[newSquare] = this
             if (this instanceof King) this.board.wKing = this.square
         }
         else if (this.player === 1) {
-            delete this.board.bPieces[oldSq]
-            this.board.bPieces[this.square] = this
+            delete this.board.bPieces[this.square]
+            this.board.bPieces[newSquare] = this
             if (this instanceof King) this.board.bKing = this.square
         }
-        this.checkCapture(oldSq)
+
+        this.square = newSquare
+        this.checkCapture()
     }
 
     show() {

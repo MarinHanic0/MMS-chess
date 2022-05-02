@@ -41,19 +41,25 @@ class Board {
         let pieces = {}
         let pawnsRow = player === 0 ? 1 : 6
         let piecesRow = player === 0 ? 0 : 7
+        let kSideRook = new Rook(0, piecesRow, player, this)
+        let qSideRook = new Rook(7, piecesRow, player, this)
+        let king = new King(3, piecesRow, player, this)
+        king.kSideRook = kSideRook
+        king.qSideRook = qSideRook
+        player === 0 ? this.wKing = king : this.bKing = king
 
         for (let i = 0; i < 8; i++) {
-            pieces[i + ' ' + pawnsRow] = new Pawn(i, pawnsRow, player, this);
+            pieces[i + ' ' + pawnsRow] = new Pawn(i, pawnsRow, player, this)
         }
 
-        pieces[0 + ' ' + piecesRow] = new Rook(0, piecesRow, player, this);
-        pieces[1 + ' ' + piecesRow] = new Knight(1, piecesRow, player, this);
-        pieces[2 + ' ' + piecesRow] = new Bishop(2, piecesRow, player, this);
-        pieces[3 + ' ' + piecesRow] = new King(3, piecesRow, player, this);
-        pieces[4 + ' ' + piecesRow] = new Queen(4, piecesRow, player, this);
-        pieces[5 + ' ' + piecesRow] = new Bishop(5, piecesRow, player, this);
-        pieces[6 + ' ' + piecesRow] = new Knight(6, piecesRow, player, this);
-        pieces[7 + ' ' + piecesRow] = new Rook(7, piecesRow, player, this);
+        pieces[0 + ' ' + piecesRow] = kSideRook
+        pieces[1 + ' ' + piecesRow] = new Knight(1, piecesRow, player, this)
+        pieces[2 + ' ' + piecesRow] = new Bishop(2, piecesRow, player, this)
+        pieces[3 + ' ' + piecesRow] = king
+        pieces[4 + ' ' + piecesRow] = new Queen(4, piecesRow, player, this)
+        pieces[5 + ' ' + piecesRow] = new Bishop(5, piecesRow, player, this)
+        pieces[6 + ' ' + piecesRow] = new Knight(6, piecesRow, player, this)
+        pieces[7 + ' ' + piecesRow] = qSideRook
 
         return pieces
     }
@@ -68,7 +74,7 @@ class Board {
             piece.getAttackingSquares().forEach(squares.add, squares)
         }
 
-        return squares
+        return Array.from(squares)
     }
 
     isEmptySquare(square) {
@@ -102,11 +108,11 @@ class Board {
             let activeKing = this.getActiveKing()
             if (activeKing.inCheck) this.checkRemoveCheck()
             delete activePieces[movingPiece.square]
-            this.wAttackingSquares = this.getAttackingSquares(0)
-            this.bAttackingSquares = this.getAttackingSquares(1)
 			movingPiece.setSquare(x, y, square)
 			this.changeTurn()
             this.setCheck()
+            this.wAttackingSquares = this.getAttackingSquares(0)
+            this.bAttackingSquares = this.getAttackingSquares(1)
 		}
     }
 
@@ -134,7 +140,7 @@ class Board {
         }
 
         movingPiece.setSquare(oldX, oldY, square, false)
-        if (opponentAttackingSquares.has(kingSquare)) {
+        if (kingSquare in opponentAttackingSquares) {
             return true
         }
         return false
@@ -152,7 +158,7 @@ class Board {
             opponentAttackingSquares = this.wAttackingSquares
         }
 
-        if (opponentAttackingSquares.has(activeKingSquare)) activeKing.inCheck = true
+        if (activeKingSquare in opponentAttackingSquares) activeKing.inCheck = true
     }
 
     getActivePieces() {
@@ -171,20 +177,20 @@ class Board {
     }
 
     show() {
-        let boja;
-        stroke(0);
-        strokeWeight(2);
+        let boja
+        stroke(0)
+        strokeWeight(2)
 
         for (let j = 0; j < 9; j++) {
             for (let i = 0; i < 9; i++) {
                 if((i + j) % 2 == 0) {
-                    boja = color(255, 255, 200);
+                    boja = color(255, 255, 200)
                 }
                 else {
-                    boja = color(177, 38, 0);
+                    boja = color(177, 38, 0)
                 }
-                fill(boja);
-                rect(i * squareSize, j * squareSize, squareSize, squareSize);
+                fill(boja)
+                rect(i * squareSize, j * squareSize, squareSize, squareSize)
             }
         }
 
