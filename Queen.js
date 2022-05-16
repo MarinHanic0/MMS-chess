@@ -25,7 +25,7 @@ class Queen extends Piece {
             if (xx > 7) break
             if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
-                break
+                if (!this.board.isKing(sq, this.player)) break;
             }
             attackingSquares.push(sq)
         }
@@ -37,7 +37,7 @@ class Queen extends Piece {
             if (xx < 0) break
             if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
-                break
+                if (!this.board.isKing(sq, this.player)) break;
             }
             attackingSquares.push(sq)
         }
@@ -61,7 +61,7 @@ class Queen extends Piece {
             if (yy < 0) break
             if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
-                break
+                if (!this.board.isKing(sq, this.player)) break;
             }
             attackingSquares.push(sq)
         }
@@ -74,7 +74,7 @@ class Queen extends Piece {
             if (xx > 7 || yy > 7) break
             if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
-                break
+                if (!this.board.isKing(sq, this.player)) break;
             }
             attackingSquares.push(sq)
         }
@@ -87,7 +87,7 @@ class Queen extends Piece {
             if (xx < 0 || yy < 0) break
             if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
-                break
+                if (!this.board.isKing(sq, this.player)) break;
             }
             attackingSquares.push(sq)
         }
@@ -100,7 +100,7 @@ class Queen extends Piece {
             if (xx > 7 || yy < 0) break
             if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
-                break
+                if (!this.board.isKing(sq, this.player)) break;
             }
             attackingSquares.push(sq)
         }
@@ -113,7 +113,7 @@ class Queen extends Piece {
             if (xx < 0 || yy > 7) break
             if(!this.board.isEmptySquare(sq)) {
                 if (this.board.isAttackableSquare(sq, this.player)) attackingSquares.push(sq)
-                break
+                if (!this.board.isKing(sq, this.player)) break;
             }
             attackingSquares.push(sq)
         }

@@ -22,7 +22,7 @@ class King extends Piece {
     canMoveTo(x, y, square) {
         let opponentAttackingSquares = this.board.getAttackingSquares((this.player + 1) % 2)
         if(!this.isPlayableSquare(x, y)
-            || square in opponentAttackingSquares) { 
+            || opponentAttackingSquares.includes(square)) { 
                 return false
         }
         if ((this.x === x + 1 && this.y >= y - 1 && this.y <= y + 1) 

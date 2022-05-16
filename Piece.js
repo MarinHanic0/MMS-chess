@@ -24,7 +24,6 @@ class Piece {
         let oldY = this.y
         this.x = x
         this.y = y
-
         if (setImage) {
             if (this instanceof King && !this.hasMoved) {
                 if (this.square === this.kSideCastleSquare && !this.kSideRook.hasMoved) {
@@ -42,12 +41,10 @@ class Piece {
         if (this.player === 0) {
             delete this.board.wPieces[this.square]
             this.board.wPieces[newSquare] = this
-            if (this instanceof King) this.board.wKing = this.square
         }
         else if (this.player === 1) {
             delete this.board.bPieces[this.square]
             this.board.bPieces[newSquare] = this
-            if (this instanceof King) this.board.bKing = this.square
         }
 
         this.square = newSquare

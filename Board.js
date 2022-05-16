@@ -64,6 +64,22 @@ class Board {
         return pieces
     }
 
+    isKing(square, player)
+    {
+        let KingX, KingY;
+        if (player == 0) 
+        {
+            KingX = this.bKing.x;
+            KingY = this.bKing.y;
+        } else
+        {
+            KingX = this.wKing.x;
+            KingY = this.wKing.y;
+        }
+        let sq = KingX + ' ' + KingY;
+        return square == sq;
+    }
+
     getAttackingSquares(player)
     {
         let pieces = player === 0 ? this.wPieces : this.bPieces
@@ -140,7 +156,7 @@ class Board {
         }
 
         movingPiece.setSquare(oldX, oldY, square, false)
-        if (kingSquare in opponentAttackingSquares) {
+        if (opponentAttackingSquares.includes(kingSquare)) {
             return true
         }
         return false
@@ -158,7 +174,7 @@ class Board {
             opponentAttackingSquares = this.wAttackingSquares
         }
 
-        if (activeKingSquare in opponentAttackingSquares) activeKing.inCheck = true
+        if (opponentAttackingSquares.includes(activeKingSquare)) activeKing.inCheck = true
     }
 
     getActivePieces() {
