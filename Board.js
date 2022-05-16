@@ -144,7 +144,7 @@ class Board {
         let oldSquare = movingPiece.square
         let opponentAttackingSquares, kingSquare
 
-        movingPiece.setSquare(x, y, oldSquare, false)
+        movingPiece.setSquare(x, y, square, false)
         
         if (this.turn === 0) {
             opponentAttackingSquares = this.getAttackingSquares(1)
@@ -155,7 +155,7 @@ class Board {
             kingSquare = this.bKing.square
         }
 
-        movingPiece.setSquare(oldX, oldY, square, false)
+        movingPiece.setSquare(oldX, oldY, oldSquare, false)
         if (opponentAttackingSquares.includes(kingSquare)) {
             return true
         }
