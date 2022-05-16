@@ -64,20 +64,17 @@ class Board {
         return pieces
     }
 
-    isKing(square, player)
+    isOpponnentKingSquare(square, player)
     {
-        let KingX, KingY;
-        if (player == 0) 
+        let sq
+        if (player === 0) 
         {
-            KingX = this.bKing.x;
-            KingY = this.bKing.y;
+            sq = this.bKing.square
         } else
         {
-            KingX = this.wKing.x;
-            KingY = this.wKing.y;
+            sq = this.wKing.square
         }
-        let sq = KingX + ' ' + KingY;
-        return square == sq;
+        return square === sq
     }
 
     getAttackingSquares(player)
