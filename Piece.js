@@ -25,15 +25,12 @@ class Piece {
         if (setImage) {
             if (this instanceof King && !this.hasMoved) {
                 if (newSquare === this.kSideCastleSquare && !this.kSideRook.hasMoved) {
-                    console.log("king side rook rookade")
                     this.kSideRook.setSquare(2, y, 2 + ' ' + y)
                 }
                 else if (newSquare === this.qSideCastleSquare && !this.qSideRook.hasMoved) {
                     this.qSideRook.setSquare(4, y, 4 + ' ' + y)
                 }
             }
-            console.log("moving figue:")
-            console.log(this)
             this.imageX = leftOffset + x * squareSize
             this.imageY = topOffset + y * squareSize
             this.hasMoved = true
