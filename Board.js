@@ -83,7 +83,6 @@ class Board {
         let squares = new Set()
         
         for (const [square, piece] of Object.entries(pieces)) {
-            squares.add(square)
             piece.getAttackingSquares().forEach(squares.add, squares)
         }
 
@@ -118,30 +117,25 @@ class Board {
 		if(movingPiece.canMoveTo(x, y, square) 
             && !this.isCausingSelfCheck(movingPiece, x, y, square, activePieces)
         ) {
-            let activeKing = this.getActiveKing()
-            if (activeKing.inCheck) this.checkRemoveCheck()
             delete activePieces[movingPiece.square]
 			movingPiece.setSquare(x, y, square)
 			this.changeTurn()
-            this.setCheck()
             this.wAttackingSquares = this.getAttackingSquares(0)
             this.bAttackingSquares = this.getAttackingSquares(1)
+            this.setCheck()
 		}
     }
 
-    // TODO: Ako je igrac u sahu, mora taj potez napraviti nesto da ne bude u sahu
     // TODO: Malo teze, ako ne moze nista napraviti da sprijeci sah, u matu je
-    checkRemoveCheck() {
-
-    }
     
     isCausingSelfCheck(movingPiece, x, y, square, activePieces) {
         let oldX = movingPiece.x
         let oldY = movingPiece.y
         let oldSquare = movingPiece.square
         let opponentAttackingSquares, kingSquare
+        let deletedPiece
 
-        movingPiece.setSquare(x, y, square, false)
+        deletedPiece = movingPiece.setSquare(x, y, square, false)
         
         if (this.turn === 0) {
             opponentAttackingSquares = this.getAttackingSquares(1)
@@ -153,6 +147,15 @@ class Board {
         }
 
         movingPiece.setSquare(oldX, oldY, oldSquare, false)
+        if(deletedPiece){
+            if(deletedPiece.player == 0){
+                this.wPieces[square] = deletedPiece;
+                this.wPieces[square].showImage = true;
+            } else{
+                this.bPieces[square] = deletedPiece;
+                this.bPieces[square].showImage = true;
+            }
+        }
         if (opponentAttackingSquares.includes(kingSquare)) {
             return true
         }
@@ -162,16 +165,12 @@ class Board {
     setCheck() {
         let activeKing = this.getActiveKing()
         let activeKingSquare = activeKing.square
-        let opponentAttackingSquares
-
-        if (this.turn === 0) {
-            opponentAttackingSquares = this.bAttackingSquares
+        let opponentAttackingSquares = this.turn === 0 ? this.bAttackingSquares : this.wAttackingSquares
+        if (opponentAttackingSquares.includes(activeKingSquare)) {
+            activeKing.inCheck = true
+        } else {
+            activeKing.inCheck = false
         }
-        else if (this.turn === 1) {
-            opponentAttackingSquares = this.wAttackingSquares
-        }
-
-        if (opponentAttackingSquares.includes(activeKingSquare)) activeKing.inCheck = true
     }
 
     getActivePieces() {

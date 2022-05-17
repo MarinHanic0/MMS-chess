@@ -8,6 +8,8 @@ class Knight extends Piece {
     }
 
     canMoveTo(x, y, square) {
+        if(this.isDouleCheck(this.player)) 
+            return false;
         if (!this.isPlayableSquare(x, y)) 
             return false
         if (this.x + 1 === x && this.y + 2 == y ||

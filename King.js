@@ -22,7 +22,7 @@ class King extends Piece {
     canMoveTo(x, y, square) {
         let opponentAttackingSquares = this.board.getAttackingSquares((this.player + 1) % 2)
         if(!this.isPlayableSquare(x, y)
-            || opponentAttackingSquares.includes(square)) { 
+            || opponentAttackingSquares.includes(square)) {
                 return false
         }
         if ((this.x === x + 1 && this.y >= y - 1 && this.y <= y + 1) 
@@ -33,6 +33,7 @@ class King extends Piece {
                 this.checkCapture(square)
                 return true
         }
+        return false
     }
 
     getAttackingSquares() {

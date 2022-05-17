@@ -8,6 +8,8 @@ class Pawn extends Piece {
     }
 
     canMoveTo(x, y, square){
+        if(this.isDouleCheck(this.player)) 
+            return false;
         if (!this.isPlayableSquare(x, y)) 
             return false
         if (this.checkCaptureMove(square)) return true

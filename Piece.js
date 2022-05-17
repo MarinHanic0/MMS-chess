@@ -20,24 +20,24 @@ class Piece {
     }
 
     setSquare(x, y, newSquare, setImage = true) {
-        let oldX = this.x
-        let oldY = this.y
         this.x = x
         this.y = y
         if (setImage) {
             if (this instanceof King && !this.hasMoved) {
-                if (this.square === this.kSideCastleSquare && !this.kSideRook.hasMoved) {
+                if (newSquare === this.kSideCastleSquare && !this.kSideRook.hasMoved) {
+                    console.log("king side rook rookade")
                     this.kSideRook.setSquare(2, y, 2 + ' ' + y)
                 }
-                else if (this.square === this.qSideCastleSquare && !this.qSideRook.hasMoved) {
+                else if (newSquare === this.qSideCastleSquare && !this.qSideRook.hasMoved) {
                     this.qSideRook.setSquare(4, y, 4 + ' ' + y)
                 }
             }
+            console.log("moving figue:")
+            console.log(this)
             this.imageX = leftOffset + x * squareSize
             this.imageY = topOffset + y * squareSize
             this.hasMoved = true
         }
-        
         if (this.player === 0) {
             delete this.board.wPieces[this.square]
             this.board.wPieces[newSquare] = this
@@ -48,7 +48,7 @@ class Piece {
         }
 
         this.square = newSquare
-        this.checkCapture()
+        return this.checkCapture()
     }
 
     show() {
@@ -66,12 +66,26 @@ class Piece {
     }
 
     checkCapture() {
-        let pieces
-        if (this.board.turn === 0) pieces = this.board.bPieces
-        else if (this.board.turn === 1) pieces = this.board.wPieces
+        let deletedPiece;
+        let pieces = this.board.turn === 0 ? this.board.bPieces : this.board.wPieces;
         if (this.square in pieces) {
             pieces[this.square].showImage = false
+            deletedPiece = pieces[this.square]
             delete pieces[this.square]
+        }
+        return deletedPiece
+    }
+
+    isDouleCheck(player) 
+    {
+        let count = 0;
+        let pieces = player === 0 ? board.bPieces : board.wPieces;
+        let king = player === 0 ? board.wKing : board.bKing;
+        for (const piece of Object.entries(pieces)) {
+            if(piece[1].getAttackingSquares().includes(king.square)){
+                ++count;
+                if(count > 1) return true;
+            }
         }
     }
 }
