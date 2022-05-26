@@ -7,7 +7,7 @@
     <title>Sketch</title>
 
     <link rel="stylesheet" type="text/css" href="style.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="libraries/p5.min.js"></script>
     <!-- <script src="Piece.js"></script>
     <script src="King.js"></script>
@@ -20,6 +20,36 @@
   </head>
 
   <body>
+    <div class="overlay" id = "whiteModal">
+      <div class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1>Odaberite figuru:</h1>
+          </div>
+          <div class = "modal-body">
+            <button id=wQueen  onclick="chooseFigure(this.id)" class="button wqueen"></button>
+            <button id=wRook   onclick="chooseFigure(this.id)" class="button wrook"></button>
+            <button id=wKnight onclick="chooseFigure(this.id)" class="button wknight"></button>
+            <button id=wBishop onclick="chooseFigure(this.id)" class="button wbishop"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay" id = "blackModal">
+      <div class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1>Odaberite figuru:</h1>
+          </div>
+          <div class = "modal-body">
+            <button id=bQueen  onclick="chooseFigure(this.id)" class="button bqueen"></button>
+            <button id=bRook   onclick="chooseFigure(this.id)" class="button brook"></button>
+            <button id=bKnight onclick="chooseFigure(this.id)" class="button bknight"></button>
+            <button id=bBishop onclick="chooseFigure(this.id)" class="button bbishop"></button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="Piece.js"></script>
     <script src="Rook.js"></script>
     <script src="Knight.js"></script>
@@ -31,3 +61,12 @@
     <script src="sketch.js"></script>
   </body>
 </html>
+
+
+<script>
+$('.overlay').on('click', function(e) {
+  if (e.target !== this) {
+    return;
+  }
+});
+</script>

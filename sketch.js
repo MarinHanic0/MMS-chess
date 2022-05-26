@@ -7,6 +7,7 @@ let mouseDown = 1
 let board
 let startSquare, endSquare
 let movingPiece
+let stareFigure = [];
 
 Piece.topOffset = topOffset
 Piece.leftOffset = leftOffset
@@ -75,4 +76,33 @@ function mouseReleased() {
 				return x + ' ' + y
 		}
 	}
+}
+
+function chooseFigure(id){
+	let pijun = stareFigure[stareFigure.length-1];
+	let square = pijun.square;
+	let modal = id.substring(0,1) == "w" ?  document.getElementById("whiteModal") : document.getElementById("blackModal");
+	let figure = id.substring(0,1) == "w" ? board.wPieces : board.bPieces;
+	let player = id.substring(0,1) == "w" ? 0 : 1;
+	switch(id.substring(1)){
+		case "Queen":
+			figure[square] = new Queen(pijun.x, pijun.y, player, board);
+			break;
+		case "Rook":
+			figure[square] = new Rook(pijun.x, pijun.y, player, board);
+			break;
+		case "Knight":
+			figure[square] = new Knight(pijun.x, pijun.y, player, board);
+			break;
+		case "Bishop":
+			figure[square] = new Bishop(pijun.x, pijun.y, player, board);
+			break;
+		default:
+	}
+	board.changeTurn();
+	board.wAttackingSquares = board.getAttackingSquares(0)
+	board.bAttackingSquares = board.getAttackingSquares(1)
+	board.setCheck()
+	stareFigure.pop();
+	modal.style.display = "none";
 }

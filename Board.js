@@ -119,11 +119,27 @@ class Board {
         ) {
             delete activePieces[movingPiece.square]
 			movingPiece.setSquare(x, y, square)
-			this.changeTurn()
+            if(!this.checkPawnFigureChange(movingPiece)){
+			    this.changeTurn();
+            }
             this.wAttackingSquares = this.getAttackingSquares(0)
             this.bAttackingSquares = this.getAttackingSquares(1)
             this.setCheck()
 		}
+    }
+
+    checkPawnFigureChange(movingPiece){
+        if (movingPiece.constructor.name != "Pawn"){
+            return false;
+        }
+        let lastRow = movingPiece.player === 0 ? 7 : 0
+        if(movingPiece.y != lastRow){
+            return false;
+        }
+        stareFigure.push(movingPiece);
+        let modalZaIzborFigure = movingPiece.player === 0 ? document.getElementById("whiteModal") : document.getElementById("blackModal");
+        modalZaIzborFigure.style.display = "block"	
+        return true;
     }
 
     // TODO: Malo teze, ako ne moze nista napraviti da sprijeci sah, u matu je
