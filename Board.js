@@ -17,6 +17,7 @@ class Board {
         this.turn = 0
         this.wKing
         this.bKing
+        this.lastMovedPiece
     }
 
     getMovingPiece(square) {
@@ -115,8 +116,13 @@ class Board {
 		y = int(y)
 
 		if(movingPiece.canMoveTo(x, y, square) 
-            && !this.isCausingSelfCheck(movingPiece, x, y, square, activePieces)
+            && !this.isCausingSelfCheck(movingPiece, x, y, square)
         ) {
+            if (movingPiece instanceof Pawn) {
+                if (this.turn === 0 && movingPiece.y === 1 && y === 3) movingPiece.enPassant = true
+                else if (this.turn === 1 && movingPiece.y === 6 && y === 4) movingPiece.enPassant = true
+                movingPiece.checkEnPassant(x, y, true)
+            }
             delete activePieces[movingPiece.square]
 			movingPiece.setSquare(x, y, square)
             if(!this.checkPawnFigureChange(movingPiece)){
@@ -125,6 +131,8 @@ class Board {
             this.wAttackingSquares = this.getAttackingSquares(0)
             this.bAttackingSquares = this.getAttackingSquares(1)
             this.setCheck()
+            if (this.lastMovedPiece instanceof Pawn) this.lastMovedPiece.enPassant = false
+            this.lastMovedPiece = movingPiece
 		}
     }
 
@@ -141,10 +149,8 @@ class Board {
         modalZaIzborFigure.style.display = "block"	
         return true;
     }
-
-    // TODO: Malo teze, ako ne moze nista napraviti da sprijeci sah, u matu je
     
-    isCausingSelfCheck(movingPiece, x, y, square, activePieces) {
+    isCausingSelfCheck(movingPiece, x, y, square) {
         let oldX = movingPiece.x
         let oldY = movingPiece.y
         let oldSquare = movingPiece.square

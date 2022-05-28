@@ -1,8 +1,7 @@
 class Pawn extends Piece {
     constructor (x, y, player, board) {
         super(x, y, player, board)
-        this.x = x
-        this.y = y
+        this.enPassant = false
         if(player === 0) this.img = loadImage('resources/PawnWhite.png')
         else if (player === 1) this.img = loadImage('resources/PawnBlack.png')
     }
@@ -13,6 +12,7 @@ class Pawn extends Piece {
         if (!this.isPlayableSquare(x, y)) 
             return false
         if (this.checkCaptureMove(square)) return true
+        if (this.checkEnPassant(x, y)) return true
         if (this.board.isEmptySquare(square)) {
             if (this.player === 0) {
                 if (this.x === x) {
@@ -73,5 +73,25 @@ class Pawn extends Piece {
         let opponentPieces = this.board.getOpponentPieces(this.player)
         if (!(square in opponentPieces)) return false
         return true
+    }
+
+    checkEnPassant(x, y, takePiece = false) {
+        if (this.player === 0 && y !== this.y + 1) return false
+        else if (this.player === 1 && y !== this.y - 1) return false
+
+        let squareCheck, opponentPieces, opponentPawn
+        if (x === this.x - 1) squareCheck = str(this.x - 1) + ' ' + str(this.y)
+        else if (x === this.x + 1) squareCheck = str(this.x + 1) + ' ' + str(this.y)
+        else return false
+        opponentPieces = this.board.getOpponentPieces(this.player)
+        if (!(squareCheck in opponentPieces)) return false
+        opponentPawn = opponentPieces[squareCheck]
+        if (opponentPawn instanceof Pawn && opponentPawn.enPassant) {
+            if (takePiece) {
+                opponentPieces[squareCheck].showImage = false
+                delete opponentPieces[squareCheck]
+            }
+            return true
+        }
     }
 }
