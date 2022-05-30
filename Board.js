@@ -131,9 +131,86 @@ class Board {
             this.wAttackingSquares = this.getAttackingSquares(0)
             this.bAttackingSquares = this.getAttackingSquares(1)
             this.setCheck()
+            this.isGameOver()
             if (this.lastMovedPiece instanceof Pawn) this.lastMovedPiece.enPassant = false
             this.lastMovedPiece = movingPiece
 		}
+    }
+
+    isGameOver() {
+        // W win -> result = 0,  B win -> result = -1, equal -> result = 1/2
+        let result = -1
+        let activePieces = this.getActivePieces()
+        let activeKing = this.getActiveKing()
+        if (this.isThreeFoldRepetition() || this.isStaleMate(activeKing, activePieces)) result = 1/2
+        if (this.isCheckMate(activeKing, activePieces)) result = this.turn === 1/2 ? -1 : 1
+
+        if (result === -1) return
+        console.log(result)
+    }
+
+    isCheckMate(activeKing, activePieces) {
+        return activeKing.inCheck && !this.canPreventCheck(activeKing, activePieces)
+    }
+
+    isStaleMate(activeKing, activePieces) {
+        return !this.isTherePossibleMove(activePieces) && !activeKing.inCheck
+    }
+
+    // Ovu metodu ne moramo raditi jer u "over the board" sahu, nece nitko automatski zaustaviti igru ako se ovo dogodi
+    isThreeFoldRepetition() {
+        return false
+    }
+
+    isTherePossibleMove(activePieces) {
+        for (const [_, piece] of Object.entries(activePieces)) {
+            let attackingSquares = piece.getAttackingSquares()
+            if (piece instanceof Pawn) {
+                let direction = this.turn === 0 ? 1 : -1
+                let xL = piece.x - 1
+                let xR = piece.x + 1
+                let y = piece.y + direction
+                let checkSquareL = str(xL) + " " + str(y)
+                let checkSquareR = str(xR) + " " + str(y)
+                if (piece.checkEnPassant(xL, y, checkSquareL) || piece.checkEnPassant(xR, y, checkSquareR)) {
+                    return true
+                }
+            }
+            for (let square in attackingSquares) {
+                let x, y = square.split(" ")
+                x = int(x)
+                y = int(y)
+                if (piece.canMoveTo(x, y, square)) return true
+            }
+        }
+        return false
+    }
+
+    canPreventCheck(activeKing, activePieces) {
+        let opponentAttackingSquares = this.getAttackingSquares((this.turn + 1) % 2)
+        for (const [_, piece] of Object.entries(activePieces)) {
+            let attackingSquares = piece.getAttackingSquares()
+            if (piece instanceof Pawn) {
+                let direction = this.turn === 0 ? 1 : -1
+                let xL = piece.x - 1
+                let xR = piece.x + 1
+                let y = piece.y + direction
+                let checkSquareL = str(xL) + " " + str(y)
+                let checkSquareR = str(xR) + " " + str(y)
+                if (piece.checkEnPassant(xL, y, checkSquareL) || piece.checkEnPassant(xR, y, checkSquareR)) {
+                    if (!opponentAttackingSquares.includes(activeKing.square)) return true
+                }
+            }
+            for (let square in attackingSquares) {
+                let x, y = square.split(" ")
+                x = int(x)
+                y = int(y)
+                if (piece.canMoveTo(x, y, square)) {
+                    if (!opponentAttackingSquares.includes(activeKing.square)) return true
+                }
+            }
+        }
+        return false
     }
 
     checkPawnFigureChange(movingPiece){
