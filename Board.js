@@ -9,7 +9,7 @@
 //   0 1 2 3 4 5 6 7
 
 class Board {
-    constructor() {
+    constructor(modalW, modalB) {
         this.wPieces = this.startPieces(0)
         this.bPieces = this.startPieces(1)
         this.wAttackingSquares = this.getAttackingSquares(0)
@@ -18,6 +18,8 @@ class Board {
         this.wKing
         this.bKing
         this.lastMovedPiece
+        this.modalW = modalW
+        this.modalB = modalB
     }
 
     getMovingPiece(square) {
@@ -146,6 +148,8 @@ class Board {
         if (this.isCheckMate(activeKing, activePieces)) result = this.turn === 1/2 ? -1 : 1
 
         if (result === -1) return
+
+        // Nesto napraviti s ovim podatkom, logiranje je samo da se vidi da radi oke
         console.log(result)
     }
 
@@ -170,9 +174,7 @@ class Board {
                 let xL = piece.x - 1
                 let xR = piece.x + 1
                 let y = piece.y + direction
-                let checkSquareL = str(xL) + " " + str(y)
-                let checkSquareR = str(xR) + " " + str(y)
-                if (piece.checkEnPassant(xL, y, checkSquareL) || piece.checkEnPassant(xR, y, checkSquareR)) {
+                if (piece.checkEnPassant(xL, y) || piece.checkEnPassant(xR, y)) {
                     return true
                 }
             }
@@ -195,9 +197,7 @@ class Board {
                 let xL = piece.x - 1
                 let xR = piece.x + 1
                 let y = piece.y + direction
-                let checkSquareL = str(xL) + " " + str(y)
-                let checkSquareR = str(xR) + " " + str(y)
-                if (piece.checkEnPassant(xL, y, checkSquareL) || piece.checkEnPassant(xR, y, checkSquareR)) {
+                if (piece.checkEnPassant(xL, y) || piece.checkEnPassant(xR, y)) {
                     if (!opponentAttackingSquares.includes(activeKing.square)) return true
                 }
             }
@@ -214,17 +214,23 @@ class Board {
     }
 
     checkPawnFigureChange(movingPiece){
-        if (movingPiece.constructor.name != "Pawn"){
-            return false;
+        if (!(movingPiece instanceof Pawn)){
+            return false
         }
-        let lastRow = movingPiece.player === 0 ? 7 : 0
+        let lastRow, modal
+        if (this.turn === 0) {
+            lastRow = 7
+            modal = this.modalW
+        }
+        else if (this.turn === 1) {
+            lastRow = 0
+            modal = this.modalB
+        }
         if(movingPiece.y != lastRow){
-            return false;
+            return false
         }
-        stareFigure.push(movingPiece);
-        let modalZaIzborFigure = movingPiece.player === 0 ? document.getElementById("whiteModal") : document.getElementById("blackModal");
-        modalZaIzborFigure.style.display = "block"	
-        return true;
+        modal.style.display = "block"	
+        return true
     }
     
     isCausingSelfCheck(movingPiece, x, y, square) {
