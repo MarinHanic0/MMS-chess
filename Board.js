@@ -67,8 +67,7 @@ class Board {
         return pieces
     }
 
-    isOpponnentKingSquare(square, player)
-    {
+    isOpponnentKingSquare(square, player) {
         let sq
         if (player === 0) 
         {
@@ -80,8 +79,7 @@ class Board {
         return square === sq
     }
 
-    getAttackingSquares(player)
-    {
+    getAttackingSquares(player) {
         let pieces = player === 0 ? this.wPieces : this.bPieces
         let squares = new Set()
         
@@ -127,7 +125,7 @@ class Board {
             }
             delete activePieces[movingPiece.square]
 			movingPiece.setSquare(x, y, square)
-            if(!this.checkPawnFigureChange(movingPiece)){
+            if(!this.checkPawnToPieceChange(movingPiece)){
 			    this.changeTurn();
             }
             this.wAttackingSquares = this.getAttackingSquares(0)
@@ -213,7 +211,7 @@ class Board {
         return false
     }
 
-    checkPawnFigureChange(movingPiece){
+    checkPawnToPieceChange(movingPiece){
         if (!(movingPiece instanceof Pawn)){
             return false
         }

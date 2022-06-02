@@ -83,24 +83,24 @@ function isModalOpen() {
 	}
 }
 
-function chooseFigure(id) {
+function choosePiece(id) {
 	if (!(movingPiece instanceof Pawn)) throw "ERROR: Only pawns can promote"
 	let pawn = movingPiece
 	let modal = id.substring(0,1) === "w" ?  modalW : modalB
-	let figure = id.substring(0,1) === "w" ? board.wPieces : board.bPieces;
+	let pieces = id.substring(0,1) === "w" ? board.wPieces : board.bPieces;
 	let player = id.substring(0,1) === "w" ? 0 : 1;
 	switch(id.substring(1)){
 		case "Queen":
-			figure[pawn.square] = new Queen(pawn.x, pawn.y, player, board);
+			pieces[pawn.square] = new Queen(pawn.x, pawn.y, player, board);
 			break;
 		case "Rook":
-			figure[pawn.square] = new Rook(pawn.x, pawn.y, player, board);
+			pieces[pawn.square] = new Rook(pawn.x, pawn.y, player, board);
 			break;
 		case "Knight":
-			figure[pawn.square] = new Knight(pawn.x, pawn.y, player, board);
+			pieces[pawn.square] = new Knight(pawn.x, pawn.y, player, board);
 			break;
 		case "Bishop":
-			figure[pawn.square] = new Bishop(pawn.x, pawn.y, player, board);
+			pieces[pawn.square] = new Bishop(pawn.x, pawn.y, player, board);
 			break;
 		default:
 			throw "ERROR: That is not a valid chess piece"
