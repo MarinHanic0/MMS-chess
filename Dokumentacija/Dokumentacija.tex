@@ -1,4 +1,3 @@
-
 \documentclass[11pt]{article}
 \usepackage[croatian]{babel}
 \topmargin -.5in
@@ -33,7 +32,8 @@ provjeravati. Takva klasa mora postojati radi hrpe šahovskih pravila npr. ako j
 bude šah nakon tog poteza. Radi takvih pravila trebamo stalno pratiti koja polja svaki igrač napada sa svojim figurama. Da bi to postigli,
 za svaku figuru moramo imati funkciju koja nam ovisno o trenutnom polju na kojem se nalazi i ostalim figurama na ploči, vraća na koja polja
 se ta figura može pomaknuti. Ta ista polja su i također polja koja ta figura napada. Jedina iznimka tomu je en passant koji je morao onda posebno
-biti implementiran.
+biti implementiran.Svaka figura još implementira funkcije potrebne za njeno pravilno pomicanje i smještena je u vlastitoj datoteci i vlastitoj klasi.
+Te klase nećemo posebno spominjati ovdje, nego ćemo se fokusirati na prethodno spomenute tri datoteke odnosno klase.
 
 \subsection{sketch.js}
 Datoteka sadrži varijable potrebne za pravilno iscrtavanje ploče i figura te se brine o tome što se događa na pritisak 
@@ -63,4 +63,29 @@ dao šah.\\
 Funkcija \textit{show} se poziva u \textit{sketch.js} u funkciji \textit{draw}, a služi za grafički prikaz ploče i svih figura. 
 
 \subsection{Piece}
+Ova klasa obuhvaća svojstva i funkcije koje svaka druga klasa koja prestavlja figuru extenda.
+Funkcija \textit{setSquare} zadužena je za pravilni logički i grafički prikaz figure na dano polje pri njenom pomicanju. 
+Funkcije \textit{show} i \textit{moveImage} se brinu za pravilan prikaz slika figura na ploči, ovisno o polju na kojem se nalaze ili poziciji miša.
+Funkcija \textit{isPlayableSquare} provjerava je li figura može biti odigrana na dano polje, ovisno o tome je li polje prazno i kojem igraču pripada.
+Funkcija \textit{checkCapture} provjerava je li pri pomicanju figure neka protivnička figura pojedena.
+Funkcija \textit{isDouleCheck} provjerava je li kralj danog igrača u duplom šahu. To je potrebno provjeravati jer u toj situaciji nije dovoljno pojesti
+figuru koja zadaje šah, nego jedini način da kralj ne bude u šahu je da se pomakne.
+
+\section{Poboljšanja}
+Neka moguća poboljšanja su:
+\begin{itemize}
+    \item Uvođenje vremenske kontrole za svakog igrača po partiji
+    \item Uvođenje izbora vremenske kontrole, npr 3 min po igraču plus 2 sekunde po potezu, 5 min po igraču
+    \item Zapisivanje odigranih poteza
+    \item Mogućnost lokalnog spremanja odigranih poteza u datoteku
+    \item Mogućnost izbora izgleda figura i ploče
+    \item Dodavanje opcije okretanja ploče tako da figure igrača koji je na potezu budu dolje radi lakšeg pregleda ploče
+    \item Dodati pripadne oznake A-H i 1-8 za stupce odnosno redke na ploči
+\end{itemize} 
+
+\section{Literatura}
+\begin{itemize}
+    \item https://p5js.org/
+    \item https://developer.mozilla.org/en-US/docs/Web/JavaScript
+\end{itemize}
 \end{document}

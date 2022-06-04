@@ -73,8 +73,7 @@ class Piece {
         return deletedPiece
     }
 
-    isDouleCheck(player) 
-    {
+    isDouleCheck(player) {
         let count = 0;
         let pieces = player === 0 ? board.bPieces : board.wPieces;
         let king = player === 0 ? board.wKing : board.bKing;
