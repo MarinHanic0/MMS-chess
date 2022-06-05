@@ -2,8 +2,8 @@ class Piece {
     static squareSize
     static topOffset
     static leftOffset
-    imageWidth = 100
-    imageHeight = 100
+    imageWidth = squareSize
+    imageHeight = squareSize
     img
     
     constructor (x, y, player, board) {
@@ -11,8 +11,10 @@ class Piece {
         this.y = y
         this.player = player
         this.board = board
-        this.imageX = leftOffset + x * squareSize
-        this.imageY = topOffset + y * squareSize
+        //this.imageX = board.leftOffset + x * squareSize
+        //this.imageY = board.topOffset + y * squareSize
+        this.imageX = x * squareSize
+        this.imageY = y * squareSize
         this.showImage = true
         this.inPlay = true
         this.square = x + ' ' + y
@@ -31,8 +33,10 @@ class Piece {
                     this.qSideRook.setSquare(4, y, 4 + ' ' + y)
                 }
             }
-            this.imageX = leftOffset + x * squareSize
-            this.imageY = topOffset + y * squareSize
+            //this.imageX = leftOffset + x * squareSize
+            //this.imageY = topOffset + y * squareSize
+            this.imageX = x * squareSize
+            this.imageY = y * squareSize
             this.hasMoved = true
         }
         if (this.player === 0) {

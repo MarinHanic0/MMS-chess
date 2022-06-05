@@ -9,7 +9,9 @@
 //   0 1 2 3 4 5 6 7
 
 class Board {
-    constructor(modalW, modalB) {
+    constructor(modalW, modalB, leftOffset, topOffset) {
+        this.leftOffset = leftOffset
+        this.topOffset =topOffset
         this.wPieces = this.startPieces(0)
         this.bPieces = this.startPieces(1)
         this.wAttackingSquares = this.getAttackingSquares(0)
@@ -138,12 +140,12 @@ class Board {
     }
 
     isGameOver() {
-        // W win -> result = 0,  B win -> result = -1, equal -> result = 1/2
+        // W win -> result = 0,  B win -> result = 1, equal -> result = 1/2
         let result = -1
         let activePieces = this.getActivePieces()
         let activeKing = this.getActiveKing()
         if (this.isThreeFoldRepetition() || this.isStaleMate(activeKing, activePieces)) result = 1/2
-        if (this.isCheckMate(activeKing, activePieces)) result = this.turn === 1/2 ? -1 : 1
+        if (this.isCheckMate(activeKing, activePieces)) result = this.turn === 1 ? 0 : 1
 
         if (result === -1) return
 
@@ -152,7 +154,7 @@ class Board {
     }
 
     isCheckMate(activeKing, activePieces) {
-        return activeKing.inCheck && !this.canPreventCheck(activeKing, activePieces)
+        return activeKing.inCheck && !this.isTherePossibleMove(activePieces)
     }
 
     isStaleMate(activeKing, activePieces) {
@@ -172,39 +174,18 @@ class Board {
                 let xL = piece.x - 1
                 let xR = piece.x + 1
                 let y = piece.y + direction
-                if (piece.checkEnPassant(xL, y) || piece.checkEnPassant(xR, y)) {
+                if ( (piece.checkEnPassant(xL, y) && !this.isCausingSelfCheck(piece, xL, y, xL+" "+y)) ||
+                     (piece.checkEnPassant(xR, y) && !this.isCausingSelfCheck(piece, xR, y, xR+" "+y)) ) {
                     return true
                 }
             }
-            for (let square in attackingSquares) {
-                let x, y = square.split(" ")
-                x = int(x)
-                y = int(y)
-                if (piece.canMoveTo(x, y, square)) return true
-            }
-        }
-        return false
-    }
-
-    canPreventCheck(activeKing, activePieces) {
-        let opponentAttackingSquares = this.getAttackingSquares((this.turn + 1) % 2)
-        for (const [_, piece] of Object.entries(activePieces)) {
-            let attackingSquares = piece.getAttackingSquares()
-            if (piece instanceof Pawn) {
-                let direction = this.turn === 0 ? 1 : -1
-                let xL = piece.x - 1
-                let xR = piece.x + 1
-                let y = piece.y + direction
-                if (piece.checkEnPassant(xL, y) || piece.checkEnPassant(xR, y)) {
-                    if (!opponentAttackingSquares.includes(activeKing.square)) return true
-                }
-            }
-            for (let square in attackingSquares) {
-                let x, y = square.split(" ")
-                x = int(x)
-                y = int(y)
-                if (piece.canMoveTo(x, y, square)) {
-                    if (!opponentAttackingSquares.includes(activeKing.square)) return true
+            for (let square of attackingSquares) {
+                let xy = square.split(" ")
+                let x,y;
+                x = int(xy[0])
+                y = int(xy[1])
+                if (piece.canMoveTo(x, y, square)  && !this.isCausingSelfCheck(piece, x, y, square)) {
+                    return true
                 }
             }
         }

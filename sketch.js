@@ -1,6 +1,6 @@
-let topOffset = 0
-let leftOffset = 0
-let squareSize = 100
+let squareSize = window.innerWidth > window.innerHeight ? window.innerHeight/8 : window.innerWidth/8;
+let leftOffset = window.innerWidth/2 - 4* squareSize
+let topOffset = window.innerHeight/2 - 4* squareSize
 let totalBoardSizeX = leftOffset + 8 * squareSize 
 let totalBoardSizeY = topOffset + 8 * squareSize 
 let mouseDown = 1
@@ -14,11 +14,12 @@ Piece.topOffset = topOffset
 Piece.leftOffset = leftOffset
 Piece.squareSize = squareSize
 
-function setup() {
-	board = new Board(modalW, modalB)
 
+function setup() {
+	board = new Board(modalW, modalB, leftOffset, topOffset)
 	background(0);
-	createCanvas(8 * squareSize, 8 * squareSize);
+	let cnv = createCanvas(8 * squareSize, 8 * squareSize);
+	cnv.position(leftOffset,topOffset, "fixed");
 }
 
 function draw() {
@@ -52,10 +53,10 @@ function draw() {
 
 function mousePressed() {
 	if (mouseDown === 1) {
-		if (mouseX > leftOffset && mouseX < totalBoardSizeX && 
-			mouseY > topOffset && mouseY < totalBoardSizeY) {
-				const x = Math.floor((mouseX - leftOffset) / squareSize)
-				const y = Math.floor((mouseY - topOffset) / squareSize)
+		if (mouseX < totalBoardSizeX && 
+			mouseY < totalBoardSizeY) {
+				const x = Math.floor(mouseX / squareSize)
+				const y = Math.floor(mouseY / squareSize)
 				return x + ' ' + y
 		}
 	}
@@ -63,15 +64,13 @@ function mousePressed() {
 
 function mouseReleased() {
 	if (mouseDown === 0) {
-		if (mouseX > leftOffset && mouseX < totalBoardSizeX && 
-			mouseY > topOffset && mouseY < totalBoardSizeY) {
+		if (mouseX < totalBoardSizeX && 
+			mouseY < totalBoardSizeY) {
 				if (mouseX > totalBoardSizeX 
-					|| mouseX < leftOffset
 					|| mouseY > totalBoardSizeY
-					|| mouseY < topOffset
 					) return 
-				const x = Math.floor((mouseX - leftOffset) / squareSize)
-				const y = Math.floor((mouseY - topOffset) / squareSize)
+				const x = Math.floor(mouseX / squareSize)
+				const y = Math.floor(mouseY / squareSize)
 				return x + ' ' + y
 		}
 	}
