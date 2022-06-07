@@ -19,7 +19,7 @@ function setup() {
 	board = new Board(modalW, modalB, leftOffset, topOffset)
 	background(0);
 	let cnv = createCanvas(8 * squareSize, 8 * squareSize);
-	cnv.position(leftOffset,topOffset, "fixed");
+	cnv.position(leftOffset, topOffset, "fixed");
 }
 
 function draw() {
@@ -109,4 +109,8 @@ function choosePiece(id) {
 	board.bAttackingSquares = board.getAttackingSquares(1)
 	board.setCheck()
 	modal.style.display = "none";
+}
+
+function endGame(){
+	location.reload();
 }

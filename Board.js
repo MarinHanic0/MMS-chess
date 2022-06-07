@@ -146,11 +146,19 @@ class Board {
         let activeKing = this.getActiveKing()
         if (this.isThreeFoldRepetition() || this.isStaleMate(activeKing, activePieces)) result = 1/2
         if (this.isCheckMate(activeKing, activePieces)) result = this.turn === 1 ? 0 : 1
-
-        if (result === -1) return
-
-        // Nesto napraviti s ovim podatkom, logiranje je samo da se vidi da radi oke
-        console.log(result)
+        switch(result){
+            case 0:
+                document.getElementById("matBijeli").style.display = "block";
+                break;
+            case 1:
+                document.getElementById("matCrni").style.display = "block";
+                break;
+            case 1/2:
+                document.getElementById("pat").style.display = "block";
+                break;
+            default:
+                return;
+        }
     }
 
     isCheckMate(activeKing, activePieces) {
