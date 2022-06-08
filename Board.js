@@ -1,16 +1,5 @@
-// 0
-// 1
-// 2
-// 3
-// 4
-// 5
-// 6
-// 7 C B C B ...
-//   0 1 2 3 4 5 6 7
-
 class Board {
-    constructor(modalW, modalB, leftOffset, topOffset) {
-        this.leftOffset = leftOffset
+    constructor(modalW, modalB, topOffset) {
         this.topOffset =topOffset
         this.wPieces = this.startPieces(0)
         this.bPieces = this.startPieces(1)
@@ -140,7 +129,6 @@ class Board {
     }
 
     isGameOver() {
-        // W win -> result = 0,  B win -> result = 1, equal -> result = 1/2
         let result = -1
         let activePieces = this.getActivePieces()
         let activeKing = this.getActiveKing()

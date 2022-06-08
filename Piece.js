@@ -1,7 +1,5 @@
 class Piece {
     static squareSize
-    static topOffset
-    static leftOffset
     imageWidth = squareSize
     imageHeight = squareSize
     img
@@ -11,8 +9,6 @@ class Piece {
         this.y = y
         this.player = player
         this.board = board
-        //this.imageX = board.leftOffset + x * squareSize
-        //this.imageY = board.topOffset + y * squareSize
         this.imageX = x * squareSize
         this.imageY = y * squareSize
         this.showImage = true
@@ -33,8 +29,6 @@ class Piece {
                     this.qSideRook.setSquare(4, y, 4 + ' ' + y)
                 }
             }
-            //this.imageX = leftOffset + x * squareSize
-            //this.imageY = topOffset + y * squareSize
             this.imageX = x * squareSize
             this.imageY = y * squareSize
             this.hasMoved = true

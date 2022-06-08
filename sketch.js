@@ -1,7 +1,7 @@
 let squareSize = window.innerWidth > window.innerHeight ? window.innerHeight/8 : window.innerWidth/8;
 let leftOffset = window.innerWidth/2 - 4* squareSize
 let topOffset = window.innerHeight/2 - 4* squareSize
-let totalBoardSizeX = leftOffset + 8 * squareSize 
+let totalBoardSizeX = 8 * squareSize 
 let totalBoardSizeY = topOffset + 8 * squareSize 
 let mouseDown = 1
 let board
@@ -10,13 +10,8 @@ let movingPiece
 let modalW = document.getElementById("whiteModal")
 let modalB = document.getElementById("blackModal")
 
-Piece.topOffset = topOffset
-Piece.leftOffset = leftOffset
-Piece.squareSize = squareSize
-
-
 function setup() {
-	board = new Board(modalW, modalB, leftOffset, topOffset)
+	board = new Board(modalW, modalB, topOffset)
 	background(0);
 	let cnv = createCanvas(8 * squareSize, 8 * squareSize);
 	cnv.position(leftOffset, topOffset, "fixed");
