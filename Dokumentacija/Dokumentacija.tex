@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 \usepackage[croatian]{babel}
 \usepackage{hyperref}
+\usepackage{graphicx}
 
 \hypersetup{
     colorlinks=true,
@@ -29,7 +30,14 @@ Odlučili smo se za p5.js umjesto Processinga jer smo htjeli u isto vrijeme istr
 bi bio dostupan na webu. Šah je igra za dva igrača s pravilima koji su poznati većini ljudi pa ih sada nećemo ovdje objašnjavati.
 Figure se pomiču tako da kliknemo i povućemo na željeno polje. Ako figura po pravilima šaha ne može doći na to polje, vraća se na
 početno mjesto i isti igrač je i dalje na potezu. Projekt je hostan na \url{https://mhalavanja.github.io/}, ali "službeno" kod aplikacije je
-na \url{https://github.com/MarinHanic0/MMS-chess}.
+na \url{https://github.com/MarinHanic0/MMS-chess}. Kako aplikacija izgleda možemo vidjeti na sljedećoj \hyperref[igra]{slici 1}.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Izgled aplikacije}
+    \includegraphics[scale=0.3]{igra.png}
+    \label{igra}
+\end{figure}
 
 \section{Dizajn programa}
 Program se dijeli na dva dijela. Prvi dio je usko vezan uz p5.js te obuhvaća sve što korisnik aplikacije vidi i kako
